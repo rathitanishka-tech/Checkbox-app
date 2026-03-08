@@ -77,7 +77,16 @@ async function init() {
 
   grid.appendChild(fragment);
 
- new WebSocket(`wss://checkbox-app-qioc.onrender.com?token=${token}`)
+socket = new WebSocket(`wss://checkbox-app-qioc.onrender.com?token=${token}`);
+
+
+socket.onopen = () => {
+  console.log("WebSocket connected");
+};
+
+socket.onerror = (err) => {
+  console.error("WebSocket error", err);
+};
 
   socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
