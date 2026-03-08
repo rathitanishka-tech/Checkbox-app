@@ -28,7 +28,7 @@ function enableAllCheckboxes() {
 async function login() {
   const username = document.getElementById("username").value;
 
-  const res = await fetch("http://localhost:3000/login", {
+  const res = await fetch("https://checkbox-app-qioc.onrender.com/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username })
@@ -47,7 +47,7 @@ async function init() {
   document.getElementById("login").style.display = "none";
   document.getElementById("loading").style.display = "block";
 
-  const res = await fetch("http://localhost:3000/state");
+  const res = await fetch("https://checkbox-app-qioc.onrender.com/state");
   const state = await res.json();
 
   const grid = document.getElementById("grid");
@@ -77,12 +77,11 @@ async function init() {
 
   grid.appendChild(fragment);
 
-  socket = new WebSocket(`ws://localhost:3000?token=${token}`);
+ new WebSocket(`wss://checkbox-app-qioc.onrender.com?token=${token}`)
 
   socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
 
-    // 🔥 RATE LIMIT HIT
     if (data.type === "RATE_LIMIT") {
       if (!isBlocked) {
         isBlocked = true;
