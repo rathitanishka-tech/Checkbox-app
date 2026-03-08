@@ -1,0 +1,109 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(to right, #eef2f7, #f8fafc);
+  display: flex;
+  justify-content: center;
+  padding-top: 60px;
+}
+
+#app {
+  text-align: center;
+  width: 95%;
+  max-width: 650px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #222;
+}
+
+#login {
+  margin-bottom: 20px;
+}
+
+#username {
+  padding: 10px;
+  width: 220px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+#username:focus {
+  border-color: #4a90e2;
+}
+
+button {
+  padding: 10px 16px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #4a90e2;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #357abd;
+}
+
+/* Badge */
+#topbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+#userBadge {
+  background: #e6f0ff;
+  color: #2c5aa0;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+/* Grid */
+#grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18px, 1fr));
+  gap: 6px;
+  margin-top: 20px;
+}
+
+#grid input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+#grid input:hover {
+  transform: scale(1.2);
+}
+
+/* Loading */
+#loading {
+  display: none;
+  margin-top: 20px;
+  color: #666;
+}
+#toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: red;
+  color: white;
+  padding: 10px 15px;
+  display: none;
+  font-weight: bold;
+}
+#toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
