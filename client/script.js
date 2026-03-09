@@ -2,6 +2,7 @@ let token = "";
 let socket;
 let isBlocked = false;
 
+
 function showToast(message) {
   const toast = document.getElementById("toast");
 
@@ -13,17 +14,65 @@ function showToast(message) {
   }, 2000);
 }
 
+
 function disableAllCheckboxes() {
   document.querySelectorAll("#grid input").forEach(cb => {
     cb.disabled = true;
   });
 }
 
+// 🔓 Enable checkboxes
 function enableAllCheckboxes() {
   document.querySelectorAll("#grid input").forEach(cb => {
     cb.disabled = false;
   });
 }
+
+function connectSocket() {
+  socket = new WebSocket(`wss://checkbox-app-qioc.onrender.com?token=${token}`);
+
+  socket.onopen = () => {
+    console.log("WebSocket connected");
+  };
+
+  socket.onclose = () => {
+    console.log("Socket closed. Reconnecting...");
+    setTimeout(connectSocket, 2000);
+  };
+
+  socket.onerror = () => {
+    socket.close();
+  };
+
+  socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+
+    if (data.type === "RATE_LIMIT") {
+      if (!isBlocked) {
+        isBlocked = true;
+
+        showToast("Too many clicks! Wait 5 seconds");
+
+        disableAllCheckboxes();
+
+        setTimeout(() => {
+          isBlocked = false;
+          enableAllCheckboxes();
+          showToast("You can click again");
+        }, 5000);
+      }
+      return;
+    }
+
+    const { index, value } = data;
+
+    const checkboxes = document.querySelectorAll("#grid input");
+    if (checkboxes[index]) {
+      checkboxes[index].checked = value === 1;
+    }
+  };
+}
+
 
 async function login() {
   const username = document.getElementById("username").value;
@@ -66,10 +115,14 @@ async function init() {
         return;
       }
 
-      socket.send(JSON.stringify({
-        type: "TOGGLE",
-        index: i
-      }));
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({
+          type: "TOGGLE",
+          index: i
+        }));
+      } else {
+        showToast("Connecting...");
+      }
     });
 
     fragment.appendChild(cb);
@@ -77,45 +130,7 @@ async function init() {
 
   grid.appendChild(fragment);
 
-socket = new WebSocket(`wss://checkbox-app-qioc.onrender.com?token=${token}`);
-
-
-socket.onopen = () => {
-  console.log("WebSocket connected");
-};
-
-socket.onerror = (err) => {
-  console.error("WebSocket error", err);
-};
-
-  socket.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-
-    if (data.type === "RATE_LIMIT") {
-      if (!isBlocked) {
-        isBlocked = true;
-
-        showToast("Too many clicks! Wait 5 seconds");
-
-     
-        disableAllCheckboxes();
-
-        setTimeout(() => {
-          isBlocked = false;
-          enableAllCheckboxes(); 
-          showToast("You can click again");
-        }, 5000);
-      }
-      return;
-    }
-
-    const { index, value } = data;
-
-    const checkboxes = document.querySelectorAll("#grid input");
-    if (checkboxes[index]) {
-      checkboxes[index].checked = value === 1;
-    }
-  };
+  connectSocket();
 
   document.getElementById("loading").style.display = "none";
 }
