@@ -21,7 +21,6 @@ function disableAllCheckboxes() {
   });
 }
 
-// 🔓 Enable checkboxes
 function enableAllCheckboxes() {
   document.querySelectorAll("#grid input").forEach(cb => {
     cb.disabled = false;
@@ -77,6 +76,10 @@ function connectSocket() {
 async function login() {
   const username = document.getElementById("username").value;
 
+  if (!username.trim()) {
+    showToast("Enter a username");
+    return;
+  }
   const res = await fetch("https://checkbox-app-qioc.onrender.com/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

@@ -1,7 +1,7 @@
 # ⚡ Real-Time Checkbox Grid
 
-🔗 **Live Demo:** https://your-live-link-here
-📹 **Demo Video:** https://your-youtube-link-here
+🔗 **Live Demo:** https://checkbox-app-zeta.vercel.app/
+
 
 ---
 
@@ -152,6 +152,17 @@ checkbox-app/
 ```
 
 ---
+## 📸 Screenshots
+
+### Login Screen
+![Login](./assets/login.png)
+
+### Checkbox Grid
+![Grid](./assets/grid.png)
+
+### Real time check
+![Real-time](./assets/real-time.png)
+
 
 ## 📌 Highlights
 
