@@ -84,7 +84,7 @@ Custom-built using Redis:
 ### 1. Clone repository
 
 ```bash
-git clone https://github.com/your-username/checkbox-app.git
+git clone https://github.com/rathitanishka-tech/Checkbox-app.git
 cd checkbox-app
 ```
 
